@@ -12,6 +12,7 @@ exports.addSkatingEvent = function(args, res, next) {
 exports.updateSkatingEvent = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * skatingEventId (String)
   * skating_event (SkatingEvent)
   **/
   // no response value expected for this operation

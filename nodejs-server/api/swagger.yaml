@@ -121,6 +121,10 @@ paths:
       produces:
       - "application/json"
       parameters:
+      - name: "skatingEventId"
+        in: "path"
+        required: true
+        type: "string"
       - in: "body"
         name: "skating_event"
         description: "The skating event to update"
