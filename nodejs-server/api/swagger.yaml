@@ -1,0 +1,255 @@
+---
+swagger: "2.0"
+info:
+  description: "This is an API to query and administer street skating event listings."
+  version: "1.0.0"
+  title: "Street Skating Event Listings API"
+  contact:
+    email: "you@skatemap.co"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/swifthorseman/skating-events/1.0.0"
+tags:
+- name: "admins"
+  description: "Secured Admin-only calls"
+- name: "developers"
+  description: "Operations available to developers"
+schemes:
+- "https"
+paths:
+  /listings:
+    get:
+      tags:
+      - "developers"
+      summary: "retrieves street skating events"
+      description: "By passing in the appropriate options, you can retrieve particular\
+        \ skating events in the system\n"
+      operationId: "retrieveSkatingEvents"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "searchString"
+        in: "query"
+        description: "pass an optional search string for looking up skating events"
+        required: false
+        type: "string"
+      - name: "skip"
+        in: "query"
+        description: "number of records to skip for pagination"
+        required: false
+        type: "integer"
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "maximum number of records to return"
+        required: false
+        type: "integer"
+        maximum: 50
+        minimum: 0
+        format: "int32"
+      responses:
+        200:
+          description: "List of skating events"
+          schema:
+            type: "array"
+            title: "Skating Events"
+            items:
+              $ref: "#/definitions/SkatingEvent"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Developers"
+    post:
+      tags:
+      - "admins"
+      summary: "adds a skating event"
+      description: "Adds a new skating event entry"
+      operationId: "addSkatingEvent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "skating_event"
+        description: "The skating event to add"
+        required: true
+        schema:
+          $ref: "#/definitions/SkatingEvent"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing item already exists"
+      x-swagger-router-controller: "Admins"
+  /listings/{skatingEventId}:
+    get:
+      tags:
+      - "developers"
+      summary: "retrieve the street skating event with the given id"
+      description: "By passing in the appropriate options, you can retrieve a particular\
+        \ skating event\n"
+      operationId: "retrieveSkatingEvent"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "skatingEventId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "A requested skating event"
+          schema:
+            $ref: "#/definitions/SkatingEvent"
+        400:
+          description: "bad input parameter"
+      x-swagger-router-controller: "Developers"
+    put:
+      tags:
+      - "admins"
+      summary: "updates a skating event"
+      description: "Updates an existing skating event entry or adds a new one if the\
+        \ given SkatingEvent does not exist"
+      operationId: "updateSkatingEvent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "skating_event"
+        description: "The skating event to update"
+        required: true
+        schema:
+          $ref: "#/definitions/SkatingEvent"
+      responses:
+        201:
+          description: "item created"
+        400:
+          description: "invalid input, object invalid"
+        409:
+          description: "an existing item already exists"
+      x-swagger-router-controller: "Admins"
+definitions:
+  SkatingEvent:
+    type: "object"
+    required:
+    - "startAt"
+    properties:
+      id:
+        type: "string"
+        format: "uuid"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      title:
+        type: "string"
+        example: "Wild Wild West(minster)"
+      description:
+        type: "string"
+        example: "This week we are going central to see some of the tourist sites\
+          \ of central London heading through Mayfair, a short jaunt south of the\
+          \ River Thames before passing Parliament in Westminster to head back to\
+          \ Hyde Park. Come and and make you Sunday a fun-day with your lead marshal\
+          \ Emily making an attempt to over-ride the weather this week. See you there!"
+      startAt:
+        type: "string"
+        format: "date-time"
+        example: "2017-02-19T14:00:00Z"
+      meetingPoint:
+        $ref: "#/definitions/Location"
+      halfTime:
+        $ref: "#/definitions/Location"
+      distance:
+        type: "number"
+        format: "float"
+        example: 8.5
+      leadMarshal:
+        type: "string"
+        example: "Emily"
+      status:
+        $ref: "#/definitions/Status"
+      url:
+        type: "string"
+        format: "url"
+        example: "http://www.lfns.co.uk/wild-wild-westminster/"
+      route:
+        $ref: "#/definitions/Route"
+      createdAt:
+        type: "string"
+        format: "date-time"
+        example: "2017-02-16T07:13:01Z"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+        example: "2017-02-16T07:13:01Z"
+  Location:
+    type: "object"
+    required:
+    - "coordinates"
+    - "name"
+    properties:
+      name:
+        type: "string"
+        example: "Serpentine Road"
+      coordinates:
+        $ref: "#/definitions/Coordinates"
+  Coordinates:
+    type: "object"
+    required:
+    - "latitude"
+    - "longtitude"
+    properties:
+      latitude:
+        type: "number"
+        format: "float"
+        example: 51.504322
+      longtitude:
+        type: "number"
+        format: "float"
+        example: -0.153358
+  Status:
+    type: "object"
+    required:
+    - "code"
+    - "text"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+        example: 2
+      text:
+        type: "string"
+        example: "GO!"
+  Route:
+    type: "object"
+    properties:
+      createdAt:
+        type: "string"
+        format: "date-time"
+        example: "2016-08-29T09:12:33.001Z"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+        example: "2016-08-29T09:12:33.001Z"
+      segments:
+        type: "array"
+        items:
+          $ref: "#/definitions/Segment"
+      url:
+        type: "string"
+        format: "url"
+        example: "http://www.lfns.co.uk/2017/02/19/route.xml"
+  Segment:
+    type: "object"
+    required:
+    - "paths"
+    properties:
+      paths:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinates"
+x-aws-api-id: "eu6ss3og26"
