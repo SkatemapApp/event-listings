@@ -4,6 +4,9 @@ var express = require("express");
 var app = express();
 var routes = require("./routes");
 
+var jsonParser = require("body-parser").json;
+
+app.use(jsonParser());
 
 var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/event-listings')
