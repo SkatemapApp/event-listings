@@ -46,7 +46,6 @@ router.get("/:id", function(req, res) {
 
 // DELETE /skatingEvents/id
 router.delete("/:id", function(req, res) {
-  console.log("req.skatingEvent: " + req.skatingEvent);
   req.skatingEvent.remove(function(err) {
     if (err) return next(err);
     res.json({
@@ -59,9 +58,51 @@ router.delete("/:id", function(req, res) {
 router.post('/upsertEvent', parsePost(function(req, res) {
   var formData = req.body;
 
-  console.log(formData);
-  res.status(201);
-  res.send({message: "Created"});
+  var skatingEvent = translate(formData);
+
+  skatingEvent.save(function(err, skatingEvent) {
+    if (err) return next(err);
+    res.status(201);
+    res.json(skatingEvent);
+  });
+
 }));
+
+function translate(formData) {
+  var skatingEvent = new SkatingEvent(
+    {
+			"title": formData.name,
+			"description": formData.description,
+      "startAt": formData.start,
+      "meetingPoint": {
+        "name": formData.meet,
+        "coordinates": {
+          "latitude": formData.meet_lat,
+          "longitude": formData.meet_lon
+        }
+      },
+      "halfTime": {
+        "name": formData.halftime,
+        "coordinates": {
+          "latitude": formData.halftime_lat,
+          "longitude": formData.halftime_lon
+        }
+      },
+      "distance": formData.distance,
+      "leadMarshal": formData.marshal,
+      "status": {
+        "code": formData.status_code,
+        "text": formData.status
+      },
+      "url": formData.url,
+      "route": {
+        "url": formData.url_route
+      }
+    }
+  );
+  return skatingEvent;
+}
+
+
 
 module.exports = router;
