@@ -4,32 +4,15 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
-var CoordinatesSchema = new Schema({
-  latitude: Number,
-  longitude: Number
-});
-
-
-var LocationSchema = new Schema({
-  name: String,
-  coordinates: CoordinatesSchema
-});
-
-var StatusSchema = new Schema({
-  code: Number,
-  text: String
-});
-
-
-var SegmentSchema = new Schema({
-  markers: [CoordinatesSchema]
-});
-
-
 var RouteSchema = new Schema({
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date, default: Date.now},
-  segments: [SegmentSchema],
+  segments: [{
+    markers: [{
+      latitude: Number,
+      longitude: Number
+    }]
+  }],
   url: String
 });
 
@@ -37,11 +20,26 @@ var SkatingEventSchema = new Schema({
   title: String,
   description: String,
   startAt: Date,
-  meetingPoint: LocationSchema,
-  halfTime: LocationSchema,
+  meetingPoint: {
+    name: String,
+    coordinates: {
+      latitude: Number,
+      longitude: Number
+    }
+  },
+  halfTime: {
+    name: String,
+    coordinates: {
+      latitude: Number,
+      longitude: Number
+    }
+  },
   distance: Number,
   leadMarshal: String,
-  status: StatusSchema,
+  status: {
+    code: Number,
+    text: String
+  },
   url: String,
   route: RouteSchema,
   createdAt: {type: Date, default: Date.now},
