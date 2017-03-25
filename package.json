@@ -20,7 +20,8 @@
   "dependencies": {
     "body-parser": "1.15.2",
     "express": "^4.13.4",
-    "mongoose": "4.4.20"
+    "mongoose": "4.4.20",
+    "parse-post": "0.1.2"
   },
   "devDependencies": {
     "mocha": "^3.0.2"

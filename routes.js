@@ -3,7 +3,7 @@
 var express = require("express");
 var router = express.Router();
 var SkatingEvent = require("./models").SkatingEvent;
-
+var parsePost = require("parse-post");
 
 router.param("id", function(req, res, next, id) {
   SkatingEvent.findById(id, function(err, doc) {
@@ -54,5 +54,14 @@ router.delete("/:id", function(req, res) {
     });
   });
 });
+
+// HTML form submission
+router.post('/upsertEvent', parsePost(function(req, res) {
+  var formData = req.body;
+
+  console.log(formData);
+  res.status(201);
+  res.send({message: "Created"});
+}));
 
 module.exports = router;
