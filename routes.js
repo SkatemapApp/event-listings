@@ -55,7 +55,7 @@ router.delete("/skatingEvents/:id", function(req, res) {
 });
 
 // HTML form submission
-router.post('/upsertEvent', parsePost(function(req, res) {
+router.post('/submit', parsePost(function(req, res) {
   var formData = req.body;
 
   var skatingEvent = translate(formData);
