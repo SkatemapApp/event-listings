@@ -9,7 +9,7 @@ app.use(jsonParser());
 
 require('./database');
 
-app.use("/skatingEvents", routes);
+app.use("/api/v1", routes);
 
 
 app.use(function(req, res, next) {

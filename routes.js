@@ -20,7 +20,7 @@ router.param("id", function(req, res, next, id) {
 
 
 // GET /skatingEvents
-router.get("/", function(req, res, next) {
+router.get("/skatingEvents", function(req, res, next) {
   SkatingEvent.find({})
               .sort({createdAt: -1})
               .exec(function(err, questions) {
@@ -30,7 +30,7 @@ router.get("/", function(req, res, next) {
 });
 
 // POST /skatingEvents
-router.post("/", function(req, res, next) {
+router.post("/skatingEvents", function(req, res, next) {
   var skatingEvent = new SkatingEvent(req.body);
   skatingEvent.save(function(err, skatingEvent) {
     if (err) return next(err);
@@ -40,12 +40,12 @@ router.post("/", function(req, res, next) {
 });
 
 // GET /skatingEvents/id
-router.get("/:id", function(req, res) {
+router.get("/skatingEvents/:id", function(req, res) {
   res.json(req.skatingEvent);
 });
 
 // DELETE /skatingEvents/id
-router.delete("/:id", function(req, res) {
+router.delete("/skatingEvents/:id", function(req, res) {
   req.skatingEvent.remove(function(err) {
     if (err) return next(err);
     res.json({
