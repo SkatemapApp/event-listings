@@ -55,18 +55,21 @@ router.delete("/skatingEvents/:id", function(req, res) {
 });
 
 // HTML form submission
-router.post('/submit', parsePost(function(req, res) {
+router.post('/submit', parsePost(function(req, res, next) {
   var formData = req.body;
-
+  // http://stackoverflow.com/a/7855281/3104465
   var skatingEvent = translate(formData);
+  var upsertData = skatingEvent.toObject();
+  delete upsertData._id;
 
-  skatingEvent.save(function(err, skatingEvent) {
-    if (err) return next(err);
-    res.status(201);
-    res.json(skatingEvent);
-  });
-
-}));
+  var query = { 'startAt': skatingEvent.startAt };
+  SkatingEvent.findOneAndUpdate(query, upsertData, { upsert: true },
+                               function(err, skatingEvent) {
+                                 if (err) return next(err);
+                                 res.status(200);
+                                 res.json(skatingEvent);
+                               })
+                             }));
 
 function translate(formData) {
   var skatingEvent = new SkatingEvent(
