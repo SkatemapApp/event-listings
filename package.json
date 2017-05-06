@@ -26,6 +26,9 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "mocha": "3.3.0"
+    "mocha": "3.3.0",
+    "request": "2.81.0",
+    "should": "11.2.1",
+    "supertest": "3.0.0"
   }
 }
