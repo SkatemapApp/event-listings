@@ -96,12 +96,17 @@ function sendNotification(currentStatus, newStatus) {
   payload.notification.body = "Today's Skate is ";
   payload['to'] = "/topics/all";
 
-  if (currentStatus == null && newStatus.code == 4) {
-    console.log("none to Rained Off");
-    payload.notification.body += currentStatus.text;
-  } else if (currentStatus == null && newStatus.code == 2) {
-    console.log("none to GO!");
-    payload.notification.body += currentStatus.text;
+  if (currentStatus == null) {
+    if (newStatus.code == 4) {
+      console.log("none to Rained Off");
+      payload.notification.body += currentStatus.text;
+    } else if (newStatus.code == 2) {
+      console.log("none to GO!");
+      payload.notification.body += currentStatus.text;
+    } else {
+      console.log("Not sending a notification", currentStatus, newStatus);
+      return;
+    }
   } else if (currentStatus.code == 2 && newStatus.code == 4) {
     console.log("GO! to Rained Off");
     payload.notification.body += currentStatus.text;
