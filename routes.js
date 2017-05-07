@@ -99,23 +99,23 @@ function sendNotification(currentStatus, newStatus) {
   if (currentStatus == null) {
     if (newStatus.code == 4) {
       console.log("none to Rained Off");
-      payload.notification.body += currentStatus.text;
+      payload.notification.body += newStatus.text;
     } else if (newStatus.code == 2) {
       console.log("none to GO!");
-      payload.notification.body += currentStatus.text;
+      payload.notification.body += newStatus.text;
     } else {
       console.log("Not sending a notification", currentStatus, newStatus);
       return;
     }
   } else if (currentStatus.code == 2 && newStatus.code == 4) {
     console.log("GO! to Rained Off");
-    payload.notification.body += currentStatus.text;
+    payload.notification.body += newStatus.text;
   } else if (currentStatus.code == 1 && newStatus.code == 2) {
     console.log("Pending to GO");
-    payload.notification.body += currentStatus.text;
+    payload.notification.body += newStatus.text;
   } else if (currentStatus.code == 4 && newStatus.code == 2) {
     console.log("Rained off to GO!");
-    payload.notification.body += currentStatus.text;
+    payload.notification.body += newStatus.text;
   } else {
     console.log("Not sending a notification", currentStatus, newStatus);
     return;
