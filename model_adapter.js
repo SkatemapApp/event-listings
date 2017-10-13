@@ -1,6 +1,6 @@
 var SkatingEvent = require("./models").SkatingEvent;
 
-function translate(formData) {
+function translateToModel(formData) {
   var skatingEvent = new SkatingEvent(
     {
 			"title": formData.name,
@@ -35,4 +35,4 @@ function translate(formData) {
   return skatingEvent;
 }
 
-module.exports.translate = translate;
+module.exports.translateToModel = translateToModel;

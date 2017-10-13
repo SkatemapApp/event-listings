@@ -8,6 +8,7 @@ var router = express.Router();
 var SkatingEvent = require("./models").SkatingEvent;
 var parsePost = require("parse-post");
 var notificationRequest = require("request");
+var translateToModel = require("./model_adapter").translateToModel;
 
 router.param("id", function(req, res, next, id) {
   SkatingEvent.findById(id, function(err, doc) {
@@ -62,7 +63,7 @@ router.delete("/v1.1/skatingEvents/:id", function(req, res) {
 router.post('/v1/submit', parsePost(function(req, res, next) {
   var formData = req.body;
   // http://stackoverflow.com/a/7855281/3104465
-  var skatingEvent = translate(formData);
+  var skatingEvent = translateToModel(formData);
 
   var currentStatus;
   SkatingEvent.findOne( { 'startAt': skatingEvent.startAt },
@@ -132,41 +133,6 @@ function sendNotification(currentStatus, newStatus) {
   }, function(error, response, body) {
     console.log(error);
   })
-}
-
-function translate(formData) {
-  var skatingEvent = new SkatingEvent(
-    {
-			"title": formData.name,
-			"description": formData.description,
-      "startAt": formData.start,
-      "meetingPoint": {
-        "name": formData.meet,
-        "coordinates": {
-          "latitude": formData.meet_lat,
-          "longitude": formData.meet_lon
-        }
-      },
-      "halfTime": {
-        "name": formData.halftime,
-        "coordinates": {
-          "latitude": formData.halftime_lat,
-          "longitude": formData.halftime_lon
-        }
-      },
-      "distance": formData.distance,
-      "leadMarshal": formData.marshal,
-      "status": {
-        "code": formData.status_code,
-        "text": formData.status
-      },
-      "url": formData.url,
-      "route": {
-        "url": formData.url_route
-      }
-    }
-  );
-  return skatingEvent;
 }
 
 module.exports = router;

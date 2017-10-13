@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 
 describe('Translate form data', function() {
-  const translateFormData = require('../utils').translate;
+  const translateToModel = require('../model_adapter').translateToModel;
 
   it('should correctly translate the incoming form data', function() {
    const formData = {
@@ -53,7 +53,7 @@ describe('Translate form data', function() {
      }
    };
 
-   const result = translateFormData(formData);
+   const result = translateToModel(formData);
    expect(result.title).to.equal(skatingEvent.title);
    expect(result.description).to.equal(skatingEvent.description);
    expect(result.startAt.getTime()).to.equal((new Date(skatingEvent.startAt)).getTime());
