@@ -23,6 +23,12 @@ router.param("id", function(req, res, next, id) {
 });
 
 
+router.get("/ping", function(req, res, next) {
+  res.status(200);
+  res.json({});
+});
+
+
 // GET /skatingEvents
 router.get("/skatingEvents", function(req, res, next) {
   SkatingEvent.find({})
