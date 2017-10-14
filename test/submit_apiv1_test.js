@@ -5,7 +5,7 @@ var assert = require('assert');
 const request = require('supertest');  
 
 describe('Routing', function() {
-  var url = 'http://127.0.0.1:6633';
+  var url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633'
   describe('API', function() {
     it('should correctly create a skating event', function(done) {
 			var formData = {
@@ -31,11 +31,13 @@ describe('Routing', function() {
 			.post('/api/v1/submit')
       .type('form')
       .send(formData)
-			.expect(200)
+			.expect(201)
 			.end(function(err,res) {
 				if (err) {
 					throw err;
 				}
+        const expectedUrlPattern = new RegExp('^' + res.request.protocol + '//' + 'localhost:6633' + '/api/v1' + '\.[0-9]' + '/'+ '[0-9a-fA-F]+$');
+        expect(res.header.location).to.match(expectedUrlPattern);
 				done();
 			});
 		});
