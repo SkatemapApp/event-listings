@@ -2,7 +2,7 @@
 
 var mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/event-listings')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://database:27017/event-listings')
 
 var db = mongoose.connection;
 db.on("error", function(err) {

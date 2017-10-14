@@ -1,7 +1,7 @@
 'use strict';
 
-var FCM_SERVER_KEY = process.env.FCM_SERVER_KEY || process.exit();
-var FCM_SEND_URL = process.env.FCM_SEND_URL || process.exit();
+var FCM_SERVER_KEY = process.env.FCM_SERVER_KEY;
+var FCM_SEND_URL = process.env.FCM_SEND_URL;
 
 var express = require("express");
 var router = express.Router();
@@ -21,6 +21,12 @@ router.param("id", function(req, res, next, id) {
     req.skatingEvent = doc;
     return next();
   });
+});
+
+
+router.get("/ping", function(req, res, next) {
+  res.status(200);
+  res.json({});
 });
 
 
