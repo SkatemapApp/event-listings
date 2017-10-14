@@ -87,11 +87,12 @@ router.post('/v1/submit', parsePost(function(req, res, next) {
   delete upsertData._id;
 
   var query = { 'startAt': skatingEvent.startAt };
-  SkatingEvent.findOneAndUpdate(query, upsertData, { upsert: true },
-                               function(err, skatingEvent) {
+  SkatingEvent.findOneAndUpdate(query, upsertData, { upsert: true, new: true },
+                               function(err, toto) {
                                  if (err) return next(err);
-                                 res.status(200);
-                                 res.json(skatingEvent);
+                                 res.status(201);
+                                 res.location("http://localhost:6633/api/v1.1/" + toto.toObject()._id);
+                                 res.json();
                                });
 
 }));
