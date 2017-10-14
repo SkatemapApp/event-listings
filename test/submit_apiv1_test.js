@@ -3,14 +3,9 @@ var expect = require('chai').expect;
 const should = require('should'); 
 var assert = require('assert');
 const request = require('supertest');  
-var mongoose = require('mongoose');
 
 describe('Routing', function() {
   var url = 'http://127.0.0.1:6633';
-  before(function(done) {
-    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/event-listings')
-    done();
-  });
   describe('API', function() {
     it('should correctly create a skating event', function(done) {
 			var formData = {
