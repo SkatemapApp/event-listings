@@ -91,7 +91,8 @@ router.post('/v1/submit', parsePost(function(req, res, next) {
                                function(err, toto) {
                                  if (err) return next(err);
                                  res.status(201);
-                                 res.location("http://localhost:6633/api/v1.1/" + toto.toObject()._id);
+                                 res.location(req.protocol + "://" +
+                                     req.headers.host + "/api/v1.1/" + toto.toObject()._id);
                                  res.json();
                                });
 

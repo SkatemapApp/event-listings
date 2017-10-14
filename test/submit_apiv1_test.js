@@ -5,7 +5,7 @@ var assert = require('assert');
 const request = require('supertest');  
 
 describe('Routing', function() {
-  var url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633'
+  var api_root_url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633'
   describe('API', function() {
     it('should correctly create a skating event', function(done) {
 			var formData = {
@@ -27,7 +27,7 @@ describe('Routing', function() {
 			  url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'
 			};
 
-		request(url)
+		request(api_root_url)
 			.post('/api/v1/submit')
       .type('form')
       .send(formData)
@@ -36,7 +36,7 @@ describe('Routing', function() {
 				if (err) {
 					throw err;
 				}
-        const expectedUrlPattern = new RegExp('^' + res.request.protocol + '//' + 'localhost:6633' + '/api/v1' + '\.[0-9]' + '/'+ '[0-9a-fA-F]+$');
+        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api/v1' + '\.[0-9]' + '/'+ '[0-9a-fA-F]+$');
         expect(res.header.location).to.match(expectedUrlPattern);
 				done();
 			});
