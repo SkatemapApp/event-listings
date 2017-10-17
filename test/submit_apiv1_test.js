@@ -38,6 +38,7 @@ describe('Routing', function() {
 				}
         const expectedUrlPattern = new RegExp('^' + api_root_url + '/api/v1' + '\.[0-9]' + '/'+ '[0-9a-fA-F]+$');
         expect(res.header.location).to.match(expectedUrlPattern);
+        expect(res.body).to.be.empty
 				done();
 			});
 		});
