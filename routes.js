@@ -65,7 +65,7 @@ router.delete("/skating-events/:id", function(req, res) {
 });
 
 // HTML form submission
-router.post('/submit', parsePost(function(req, res, next) {
+router.post('/skating-events/submit', parsePost(function(req, res, next) {
   var formData = req.body;
   // http://stackoverflow.com/a/7855281/3104465
   var skatingEvent = translate(formData);
