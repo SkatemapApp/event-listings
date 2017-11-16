@@ -29,8 +29,8 @@ router.get("/ping", function(req, res, next) {
 });
 
 
-// GET /skatingEvents
-router.get("/skatingEvents", function(req, res, next) {
+// GET /skating-events
+router.get("/skating-events", function(req, res, next) {
   SkatingEvent.find({})
               .sort({createdAt: -1})
               .exec(function(err, questions) {
@@ -39,8 +39,8 @@ router.get("/skatingEvents", function(req, res, next) {
               });
 });
 
-// POST /skatingEvents
-router.post("/skatingEvents", function(req, res, next) {
+// POST /skating-events
+router.post("/skating-events", function(req, res, next) {
   var skatingEvent = new SkatingEvent(req.body);
   skatingEvent.save(function(err, skatingEvent) {
     if (err) return next(err);
@@ -49,13 +49,13 @@ router.post("/skatingEvents", function(req, res, next) {
   });
 });
 
-// GET /skatingEvents/id
-router.get("/skatingEvents/:id", function(req, res) {
+// GET /skating-events/id
+router.get("/skating-events/:id", function(req, res) {
   res.json(req.skatingEvent);
 });
 
-// DELETE /skatingEvents/id
-router.delete("/skatingEvents/:id", function(req, res) {
+// DELETE /skating-events/id
+router.delete("/skating-events/:id", function(req, res) {
   req.skatingEvent.remove(function(err) {
     if (err) return next(err);
     res.json({
