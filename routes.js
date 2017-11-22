@@ -42,7 +42,9 @@ router.get("/skating-events", function(req, res, next) {
               .sort({createdAt: -1})
               .exec(function(err, questions) {
                 if (err) return next(err);
-                res.json(questions);
+                var v1Obj = toApiV1(questions);
+                console.log(questions);
+                res.json(v1Obj);
               });
 });
 
@@ -145,6 +147,41 @@ function sendNotification(currentStatus, newStatus) {
   }, function(error, response, body) {
     console.log(error);
   })
+}
+
+function toApiV1(skatingEvents) {
+  var skates = extractSkatingEvents(skatingEvents)
+  return { version: 1,
+            retrieved: "2017-11-21 22:59:30",
+            skates
+          }
+}
+
+function extractSkatingEvents(skatingEvents) {
+  var hashTable = {};
+  for (var i = 0; i < skatingEvents.length; i++) {
+      var key = skatingEvents[i]._id;
+      hashTable[key] = ({name: skatingEvents[i].title,
+                         description: skatingEvents[i].description,
+                         start: skatingEvents[i].startAt,
+                         meet: skatingEvents[i].meetingPoint['name'],
+                         meet_latlon: [skatingEvents[i].meetingPoint['coordinates'].latitude,
+                          skatingEvents[i].meetingPoint['coordinates'].longitude],
+                         halftime: skatingEvents[i].halfTime['name'],
+                         halftime_latlon: [skatingEvents[i].halfTime['coordinates'].latitude,
+                          skatingEvents[i].halfTime['coordinates'].longitude],
+                         distance: skatingEvents[i].distance,
+                         marshal: skatingEvents[i].leadMarshal,
+                         status: skatingEvents[i].status['text'],
+                         status_code: skatingEvents[i].status['code'],
+                         url: skatingEvents[i].url,
+                         added: skatingEvents[i].createdAt,
+                         last_modified: skatingEvents[i].updatedAt,
+                         last_modified_route: skatingEvents[i].route['updatedAt'],
+                         route: skatingEvents[i].route['segments']
+                        });
+  }
+  return hashTable;
 }
 
 function translate(formData) {
