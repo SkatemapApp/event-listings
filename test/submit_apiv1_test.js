@@ -1,8 +1,8 @@
 var expect = require('chai').expect;
 
-const should = require('should'); 
+const should = require('should');
 var assert = require('assert');
-const request = require('supertest');  
+const request = require('supertest');
 
 describe('Routing', function() {
   var api_root_url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633'
@@ -36,7 +36,7 @@ describe('Routing', function() {
 				if (err) {
 					throw err;
 				}
-        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api/v1' + '\.[0-9]' + '/'+ '[0-9a-fA-F]+$');
+        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api/v1' + '\.[0-9]' + '/skatingEvents/'+ '[0-9a-fA-F]+$');
         expect(res.header.location).to.match(expectedUrlPattern);
         expect(res.body).to.be.empty
 				done();

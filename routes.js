@@ -92,7 +92,7 @@ router.post('/v1/submit', parsePost(function(req, res, next) {
                                  if (err) return next(err);
                                  res.status(201);
                                  res.location(req.protocol + "://" +
-                                     req.headers.host + "/api/v1.1/" + toto.toObject()._id);
+                                     req.headers.host + "/api/v1.1/skatingEvents/" + toto.toObject()._id);
                                  res.json();
                                });
 
