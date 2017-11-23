@@ -30,7 +30,7 @@ describe('API', function() {
     it('should correctly create a skating event', function(done) {
 ;
 		request(api_root_url)
-			.post('/api/v1/submit')
+			.post('/api/skating-events/submit')
       .type('form')
       .send(formData)
 			.expect(201)
@@ -39,7 +39,7 @@ describe('API', function() {
 					throw err;
 				}
         createdResourceUrl = res.header.location;
-        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api/v1' + '\.[0-9]' + '/skatingEvents/'+ '[0-9a-fA-F]+$');
+        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api' + '/skating-events/'+ '[0-9a-fA-F]+$');
         expect(createdResourceUrl).to.match(expectedUrlPattern);
         expect(res.body).to.be.empty
 				done();
