@@ -5,7 +5,7 @@ const formData = require("./data/form_submissions").sunday_stroll;
 const skatingEventModel = require("./data/dbmodel").skatingEventModel;
 
 describe('Translate form data', function() {
-  const translateToModel = require('../adapters/model_adapter').translateToModel;
+  const translateToModel = require('../adapters/form_to_dbmodel').translateToModel;
 
   it('should correctly translate the incoming form data', function() {
 
