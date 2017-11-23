@@ -2,6 +2,7 @@
 
 var FCM_SERVER_KEY = process.env.FCM_SERVER_KEY;
 var FCM_SEND_URL = process.env.FCM_SEND_URL;
+var SKATING_EVENTS_URL = process.env.SKATING_EVENTS_URL;
 
 var express = require("express");
 var router = express.Router();
@@ -23,6 +24,12 @@ router.param("id", function(req, res, next, id) {
   });
 });
 
+router.get("/", function(req, res, next) {
+    res.status(200);
+    res.json({skating_events: SKATING_EVENTS_URL});
+  }
+);
+
 
 router.get("/ping", function(req, res, next) {
   res.status(200);
@@ -30,8 +37,8 @@ router.get("/ping", function(req, res, next) {
 });
 
 
-// GET /skatingEvents
-router.get("/v1.1/skatingEvents", function(req, res, next) {
+// GET /skating-events
+router.get("/skating-events", function(req, res, next) {
   SkatingEvent.find({})
               .sort({createdAt: -1})
               .exec(function(err, questions) {
@@ -40,8 +47,8 @@ router.get("/v1.1/skatingEvents", function(req, res, next) {
               });
 });
 
-// POST /skatingEvents
-router.post("/v1.1/skatingEvents", function(req, res, next) {
+// POST /skating-events
+router.post("/skating-events", function(req, res, next) {
   var skatingEvent = new SkatingEvent(req.body);
   skatingEvent.save(function(err, skatingEvent) {
     if (err) return next(err);
@@ -50,13 +57,13 @@ router.post("/v1.1/skatingEvents", function(req, res, next) {
   });
 });
 
-// GET /skatingEvents/id
-router.get("/v1.1/skatingEvents/:id", function(req, res) {
+// GET /skating-events/id
+router.get("/skating-events/:id", function(req, res) {
   res.json(req.skatingEvent);
 });
 
-// DELETE /skatingEvents/id
-router.delete("/v1.1/skatingEvents/:id", function(req, res) {
+// DELETE /skating-events/id
+router.delete("/skating-events/:id", function(req, res) {
   req.skatingEvent.remove(function(err) {
     if (err) return next(err);
     res.json({
@@ -66,7 +73,7 @@ router.delete("/v1.1/skatingEvents/:id", function(req, res) {
 });
 
 // HTML form submission
-router.post('/v1/submit', parsePost(function(req, res, next) {
+router.post('/skating-events/submit', parsePost(function(req, res, next) {
   var formData = req.body;
   // http://stackoverflow.com/a/7855281/3104465
   var skatingEvent = translateToModel(formData);
