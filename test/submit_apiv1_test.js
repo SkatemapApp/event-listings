@@ -45,5 +45,23 @@ describe('API', function() {
 				done();
 			});
 		});
+
+    describe('retrieving a submitted skating event via the GET request', function() {
+      it('should correctly return that skating event', function(done) {
+        request(createdResourceUrl)
+          .get('/')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(function(err,res) {
+            if (err) {
+              throw err;
+            }
+            done();
+          });
+      });
+    });
+
+
   });
 });
