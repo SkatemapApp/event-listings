@@ -1,4 +1,4 @@
-var SkatingEvent = require("./models").SkatingEvent;
+var SkatingEvent = require("../models").SkatingEvent;
 
 function translateToModel(formData) {
   var skatingEvent = new SkatingEvent(

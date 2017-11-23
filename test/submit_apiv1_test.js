@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 const should = require('should');
 var assert = require('assert');
 const request = require('supertest');
-var translateToModel = require("../model_adapter").translateToModel;
+var translateToModel = require("../adapters/model_adapter").translateToModel;
 const formData = require("./data/form_submissions").sunday_stroll;
 
 describe('API', function() {

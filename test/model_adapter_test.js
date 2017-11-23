@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 
 describe('Translate form data', function() {
-  const translateToModel = require('../model_adapter').translateToModel;
+  const translateToModel = require('../adapters/model_adapter').translateToModel;
 
   it('should correctly translate the incoming form data', function() {
    const formData = {

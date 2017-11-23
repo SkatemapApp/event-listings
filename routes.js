@@ -9,7 +9,7 @@ var router = express.Router();
 var SkatingEvent = require("./models").SkatingEvent;
 var parsePost = require("parse-post");
 var notificationRequest = require("request");
-var translateToModel = require("./model_adapter").translateToModel;
+var translateToModel = require("./adapters/model_adapter").translateToModel;
 
 router.param("id", function(req, res, next, id) {
   SkatingEvent.findById(id, function(err, doc) {
