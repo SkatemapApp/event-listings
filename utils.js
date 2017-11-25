@@ -37,7 +37,7 @@ function validateFormSubmission(formData) {
   }
 
   //description
-  if (typeof formData.description === 'undefined'|| formData.description.length > 256) {
+  if (typeof formData.description === 'undefined'|| formData.description.length > 2048) {
     messages.push("Missing or invalid field: 'description'");
   }
 

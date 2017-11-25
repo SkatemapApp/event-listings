@@ -83,13 +83,18 @@ describe('Validate form submission', function() {
   });
 
   describe('Validate description', function() {
-    it('should check it is present', function() {
+    it('should fail if it is absent', function() {
       expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'description'");
     });
 
-    it('should check it does not exceed the maximum limit', function() {
-      expect(validateFormSubmission({name: 'x'.repeat(2049)})).to.be.an('array').that.includes("Missing or invalid field: 'description'");
+    it('should fail if it exceeds the maximum limit', function() {
+      expect(validateFormSubmission({description: 'x'.repeat(2049)})).to.be.an('array').that.includes("Missing or invalid field: 'description'");
     });
+
+    it('should pass if it is withiin the allowed limit', function() {
+      expect(validateFormSubmission({description: 'x'.repeat(2048)})).to.be.an('array').to.not.include("Missing or invalid field: 'description'");
+    });
+
   });
 
   describe('Validate start', function() {
