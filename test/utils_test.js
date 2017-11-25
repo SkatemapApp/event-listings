@@ -46,19 +46,22 @@ describe('isNumeric', function() {
 
 describe('Validate form submission', function() {
   describe('Validate id', function() {
-    it('should check it is present', function() {
+    it('should fail if it is absent', function() {
       expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'id'");
     });
 
-    it('should check it is not an empty string', function() {
+    it('should fail if it is an empty string', function() {
       expect(validateFormSubmission({id: ''})).to.be.an('array').that.includes("Missing or invalid field: 'id'");
     });
 
-    it('should check it does not exceed the maximum limit', function() {
+    it('should fail if it exceeds the maximum limit', function() {
       expect(validateFormSubmission({id: 'x'.repeat(65)})).to.be.an('array').that.includes("Missing or invalid field: 'id'");
     });
-  });
 
+    it('should pass if it is within the allowed limit', function() {
+      expect(validateFormSubmission({id: 'x'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'id'"]);
+    });
+  });
 
   describe('Validate name', function() {
     it('should check it is present', function() {
