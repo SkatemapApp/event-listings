@@ -1,5 +1,7 @@
 "use strict";
 
+var validator = require('validator');
+
 function toUtc(dateString) {
   return new Date(dateString).toISOString().replace('T', ' ').substr(0, 19);
 }
@@ -112,8 +114,17 @@ function validateFormSubmission(formData) {
   }
 
   //url
+  if (typeof formData.url === 'undefined'
+      || !validator.isURL(formData.url)) {
+    messages.push("Missing or invalid field: 'url'");
+  }
 
   //url_route
+  if (typeof formData.url_route === 'undefined'
+      || !validator.isURL(formData.url_route)) {
+    messages.push("Missing or invalid field: 'url_route'");
+  }
+
   return messages;
 }
 

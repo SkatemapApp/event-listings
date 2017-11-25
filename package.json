@@ -23,7 +23,8 @@
     "express": "^4.13.4",
     "mongoose": "4.4.20",
     "parse-post": "0.1.2",
-    "request": "2.81.0"
+    "request": "2.81.0",
+    "validator": "9.1.2"
   },
   "devDependencies": {
     "chai": "4.1.2",

@@ -397,4 +397,60 @@ describe('Validate form submission', function() {
 
   });
 
+  describe('Validate url', function() {
+    it('should fail if it is absent', function() {
+      expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should fail if it is an empty string', function() {
+      expect(validateFormSubmission({url: ''})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should fail if it is not a URL', function() {
+      expect(validateFormSubmission({url: 'a'})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should pass if it is a properly formatted URL', function() {
+      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url'"]);
+    });
+  });
+
+  describe('Validate url', function() {
+    it('should fail if it is absent', function() {
+      expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should fail if it is an empty string', function() {
+      expect(validateFormSubmission({url: ''})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should fail if it is not a URL', function() {
+      expect(validateFormSubmission({url: 'a'})).to.be.an('array').that.includes("Missing or invalid field: 'url'");
+    });
+
+    it('should pass if it is a properly formatted URL', function() {
+      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url'"]);
+    });
+  });
+
+  describe('Validate url_route', function() {
+    it('should fail if it is absent', function() {
+      expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'url_route'");
+    });
+
+    it('should fail if it is an empty string', function() {
+      expect(validateFormSubmission({url_route: ''})).to.be.an('array').that.includes("Missing or invalid field: 'url_route'");
+    });
+
+    it('should fail if it is not a URL', function() {
+      expect(validateFormSubmission({url_route: 'a'})).to.be.an('array').that.includes("Missing or invalid field: 'url_route'");
+    });
+
+    it('should pass if it is a properly formatted URL', function() {
+      expect(validateFormSubmission({url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url_route'"]);
+    });
+  });
+
+
+
 });
