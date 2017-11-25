@@ -59,7 +59,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is within the allowed limit', function() {
-      expect(validateFormSubmission({id: 'x'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'id'"]);
+      expect(validateFormSubmission({id: 'x'})).to.be.an('array').to.not.include("Missing or invalid field: 'id'");
     });
   });
 
@@ -77,7 +77,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is within the allowed limit', function() {
-      expect(validateFormSubmission({name: 'x'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'name'"]);
+      expect(validateFormSubmission({name: 'x'})).to.be.an('array').to.not.include("Missing or invalid field: 'name'");
     });
 
   });
@@ -129,7 +129,7 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is within the allowed limit', function() {
-      expect(validateFormSubmission({meet: 'Serpentine Road Bandstand'})).to.not.have.members(["Missing or invalid field: 'meet'"]);
+      expect(validateFormSubmission({meet: 'Serpentine Road Bandstand'})).to.not.include("Missing or invalid field: 'meet'");
     });
 
   });
@@ -174,27 +174,27 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is Pending', function() {
-      expect(validateFormSubmission({status: 'Pending'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'Pending'})).to.not.include("Missing or invalid field: 'status'");
     });
 
     it('should succeed if it is GO!', function() {
-      expect(validateFormSubmission({status: 'GO!'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'GO!'})).to.not.include("Missing or invalid field: 'status'");
     });
 
     it('should succeed if it is Wait', function() {
-      expect(validateFormSubmission({status: 'Wait'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'Wait'})).to.not.include("Missing or invalid field: 'status'");
     });
 
     it('should succeed if it is Rained Off', function() {
-      expect(validateFormSubmission({status: 'Rained Off'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'Rained Off'})).to.not.include("Missing or invalid field: 'status'");
     });
 
     it('should succeed if it is Completed', function() {
-      expect(validateFormSubmission({status: 'Completed'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'Completed'})).to.not.include("Missing or invalid field: 'status'");
     });
 
     it('should succeed if it is Deleted', function() {
-      expect(validateFormSubmission({status: 'Deleted'})).to.not.have.members(["Missing or invalid field: 'status'"]);
+      expect(validateFormSubmission({status: 'Deleted'})).to.not.include("Missing or invalid field: 'status'");
     });
   });
 
@@ -220,15 +220,15 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is between 0 and 180 inclusive', function() {
-      expect(validateFormSubmission({meet_lat: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lat'"]);
+      expect(validateFormSubmission({meet_lat: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lat'");
     });
 
     it('should succeed if it is between -180 and 0 inclusive', function() {
-      expect(validateFormSubmission({meet_lat: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lat'"]);
+      expect(validateFormSubmission({meet_lat: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lat'");
     });
 
     it('should succeed if it is 0', function() {
-      expect(validateFormSubmission({meet_lat: '0'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lat'"]);
+      expect(validateFormSubmission({meet_lat: '0'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lat'");
     });
 
   });
@@ -255,15 +255,15 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is between 0 and 180 inclusive', function() {
-      expect(validateFormSubmission({meet_lon: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lon'"]);
+      expect(validateFormSubmission({meet_lon: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lon'");
     });
 
     it('should succeed if it is between -180 and 0 inclusive', function() {
-      expect(validateFormSubmission({meet_lon: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lon'"]);
+      expect(validateFormSubmission({meet_lon: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lon'");
     });
 
     it('should succeed if it is 0', function() {
-      expect(validateFormSubmission({meet_lon: '0'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'meet_lon'"]);
+      expect(validateFormSubmission({meet_lon: '0'})).to.be.an('array').to.not.include("Missing or invalid field: 'meet_lon'");
     });
 
   });
@@ -282,7 +282,7 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is within the allowed limit', function() {
-      expect(validateFormSubmission({halftime: 'Serpentine Road Bandstand'})).to.not.have.members(["Missing or invalid field: 'halftime'"]);
+      expect(validateFormSubmission({halftime: 'Serpentine Road Bandstand'})).to.not.include("Missing or invalid field: 'halftime'");
     });
 
   });
@@ -309,15 +309,15 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is between 0 and 180 inclusive', function() {
-      expect(validateFormSubmission({halftime_lat: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lat'"]);
+      expect(validateFormSubmission({halftime_lat: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lat'");
     });
 
     it('should succeed if it is between -180 and 0 inclusive', function() {
-      expect(validateFormSubmission({halftime_lat: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lat'"]);
+      expect(validateFormSubmission({halftime_lat: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lat'");
     });
 
     it('should succeed if it is 0', function() {
-      expect(validateFormSubmission({halftime_lat: '0'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lat'"]);
+      expect(validateFormSubmission({halftime_lat: '0'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lat'");
     });
 
   });
@@ -344,15 +344,15 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed if it is between 0 and 180 inclusive', function() {
-      expect(validateFormSubmission({halftime_lon: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lon'"]);
+      expect(validateFormSubmission({halftime_lon: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lon'");
     });
 
     it('should succeed if it is between -180 and 0 inclusive', function() {
-      expect(validateFormSubmission({halftime_lon: '180'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lon'"]);
+      expect(validateFormSubmission({halftime_lon: '180'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lon'");
     });
 
     it('should succeed if it is 0', function() {
-      expect(validateFormSubmission({halftime_lon: '0'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'halftime_lon'"]);
+      expect(validateFormSubmission({halftime_lon: '0'})).to.be.an('array').to.not.include("Missing or invalid field: 'halftime_lon'");
     });
   });
 
@@ -370,7 +370,7 @@ describe('Validate form submission', function() {
     });
 
     it('should succeed it does not exceed the maximum limit', function() {
-      expect(validateFormSubmission({marshal: 'Jane Doe'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'marshal'"]);
+      expect(validateFormSubmission({marshal: 'Jane Doe'})).to.be.an('array').to.not.include("Missing or invalid field: 'marshal'");
     });
 
   });
@@ -405,7 +405,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is within the acceptable range', function() {
-      expect(validateFormSubmission({status_code: '3'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'status_code'"]);
+      expect(validateFormSubmission({status_code: '3'})).to.be.an('array').to.not.include("Missing or invalid field: 'status_code'");
     });
 
   });
@@ -424,7 +424,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is a properly formatted URL', function() {
-      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url'"]);
+      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.include("Missing or invalid field: 'url'");
     });
   });
 
@@ -442,7 +442,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is a properly formatted URL', function() {
-      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url'"]);
+      expect(validateFormSubmission({url: 'http://www.lfns.co.uk/for-wander-its-worth/'})).to.be.an('array').to.not.include("Missing or invalid field: 'url'");
     });
   });
 
@@ -460,7 +460,7 @@ describe('Validate form submission', function() {
     });
 
     it('should pass if it is a properly formatted URL', function() {
-      expect(validateFormSubmission({url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'})).to.be.an('array').to.not.have.members(["Missing or invalid field: 'url_route'"]);
+      expect(validateFormSubmission({url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'})).to.be.an('array').to.not.include("Missing or invalid field: 'url_route'");
     });
   });
 
