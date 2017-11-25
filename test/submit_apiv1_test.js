@@ -1,48 +1,67 @@
 var expect = require('chai').expect;
 
-const should = require('should'); 
+const should = require('should');
 var assert = require('assert');
-const request = require('supertest');  
-var mongoose = require('mongoose');
+const request = require('supertest');
+const formData = require("./data/form_submissions").sunday_stroll;
 
-describe('Routing', function() {
-  var url = 'http://127.0.0.1:6633';
-  before(function(done) {
-    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/event-listings')
-    done();
-  });
-  describe('API', function() {
+describe('API', function() {
+  var api_root_url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633'
+  describe('form submission via the POST request', function() {
+    var createdResourceUrl;
     it('should correctly create a skating event', function(done) {
-			var formData = {
-				id: '20170507',
-			  name: 'Sunday Stroll: For Wander-its-worth',
- 				description: 'This Sunday our star quaddie lead marshal Kev will be taking the Sunday Stroll on a wonderful wander down to Wandsworth. Hopefully the temperatures and join us with music, wheels and a willingness to have a good time!!',
- 				start: '2017-05-07 13:00:00 UTC',
- 				meet: 'East end of Serpentine Road',
-				distance: 8,
-				status: 'Pending',
-				meet_lat: 51.504322,
-				meet_lon: 0.153358,
-				halftime: 'Wandsworth Bridge',
-				halftime_lat: 51.468164805146166,
-				halftime_lon: -0.19050121307373047,
-				marshal: 'Kev',
-				status_code: 1,
-				url: 'http://www.lfns.co.uk/for-wander-its-worth/',
-			  url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'
-			};
-
-		request(url)
-			.post('/api/v1/submit')
+;
+		request(api_root_url)
+			.post('/api/skating-events/submit')
       .type('form')
       .send(formData)
-			.expect(200)
+			.expect(201)
 			.end(function(err,res) {
 				if (err) {
 					throw err;
 				}
+        createdResourceUrl = res.header.location;
+        const expectedUrlPattern = new RegExp('^' + api_root_url + '/api' + '/skating-events/'+ '[0-9a-fA-F]+$');
+        expect(createdResourceUrl).to.match(expectedUrlPattern);
+        expect(res.body).to.be.empty
 				done();
 			});
 		});
+
+    describe('retrieving the skating event returned in the header of the preceeding POST request', function() {
+      it('should return the skating event created in that POST request', function(done) {
+        request(createdResourceUrl)
+          .get('/')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end(function(err,res) {
+            if (err) {
+              throw err;
+            }
+            const result = res.body;
+            const skatingEventId = (Object.keys(res.body)).pop();
+            const skatingEvent = result[skatingEventId];
+            expect(skatingEvent.name).to.equal(formData.name);
+            expect(skatingEvent.description).to.equal(formData.description);
+            expect(skatingEvent.start).to.equal(formData.start.substr(0, 19));
+            expect(skatingEvent.meet).to.equal(formData.meet);
+            expect(skatingEvent.meet_latlon).to.deep.equal([formData.meet_lat, formData.meet_lon]);
+            expect(skatingEvent.halftime).to.equal(formData.halftime);
+            expect(skatingEvent.halftime_latlon).to.deep.equal([formData.halftime_lat, formData.halftime_lon]);
+            expect(skatingEvent.distance).to.equal(formData.distance);
+            expect(skatingEvent.marshal).to.equal(formData.marshal);
+            expect(skatingEvent.status).to.equal(formData.status);
+            expect(skatingEvent.status_code).to.equal(formData.status_code);
+            expect(skatingEvent.url).to.equal(formData.url);
+            const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
+            expect(skatingEvent.added).to.match(dateTimeRegEx);
+            expect(skatingEvent.last_modified).to.match(dateTimeRegEx);
+            expect(skatingEvent.last_modified_route).to.match(dateTimeRegEx);
+            expect(skatingEvent.route).to.be.an('array').that.is.empty;
+            done();
+          });
+      });
+    });
   });
 });
