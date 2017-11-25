@@ -163,6 +163,17 @@ describe('Validate form submission', function() {
     it('should fail if it is zero', function() {
       expect(validateFormSubmission({distance: '0'})).to.be.an('array').that.includes("Missing or invalid field: 'distance'");
     });
+
+    it('should succeed if it is a positive integer', function() {
+      expect(validateFormSubmission({distance: '10'})).to.not.include("Missing or invalid field: 'distance'");
+    });
+
+    it('should succeed if it is a positive floating point number', function() {
+      expect(validateFormSubmission({distance: '10.3'})).to.not.include("Missing or invalid field: 'distance'");
+    });
+
+
+
   });
 
   describe('Validate Status', function() {
