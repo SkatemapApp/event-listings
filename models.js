@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
@@ -10,10 +10,10 @@ var RouteSchema = new Schema({
   segments: [{
     markers: [{
       latitude: Number,
-      longitude: Number
-    }]
+      longitude: Number,
+    }],
   }],
-  url: String
+  url: String,
 });
 
 var SkatingEventSchema = new Schema({
@@ -24,27 +24,27 @@ var SkatingEventSchema = new Schema({
     name: String,
     coordinates: {
       latitude: Number,
-      longitude: Number
-    }
+      longitude: Number,
+    },
   },
   halfTime: {
     name: String,
     coordinates: {
       latitude: Number,
-      longitude: Number
-    }
+      longitude: Number,
+    },
   },
   distance: Number,
   leadMarshal: String,
   status: {
     code: Number,
-    text: String
+    text: String,
   },
   url: String,
   route: RouteSchema,
   createdAt: {type: Date, default: Date.now},
-  updatedAt: {type: Date, default: Date.now}
+  updatedAt: {type: Date, default: Date.now},
 });
 
-var SkatingEvent = mongoose.model("SkatingEvent", SkatingEventSchema);
-module.exports.SkatingEvent = SkatingEvent
+var SkatingEvent = mongoose.model('SkatingEvent', SkatingEventSchema);
+module.exports.SkatingEvent = SkatingEvent;
