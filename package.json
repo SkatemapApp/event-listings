@@ -4,7 +4,7 @@
   "description": "Street Skating Event Listings",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=text --check-coverage --lines 100 --per-file mocha",
+    "test": "nyc --reporter=text --check-coverage --lines 100 --statements 100 --functions 100 --branches 100 --per-file mocha",
     "test:coverage": "istanbul cover _mocha"
   },
   "repository": {
