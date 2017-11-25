@@ -4,7 +4,7 @@ const skatingEvent = {
   _id: "590e54895dd9d404004d5c3c",
   title: "Sunday Stroll: For Wander-its-worth",
   description: "This Sunday our star quaddie lead marshal Kev will be taking the Sunday Stroll on a wonderful wander down to Wandsworth. Hopefully the temperatures and join us with music, wheels and a willingness to have a good time!!",
-  startAt: "2017-05-07 13:00:00 UTC",
+  startAt: "2017-05-07T13:00:00.000Z",
   meetingPoint: {
    name: "East end of Serpentine Road",
    coordinates: {
