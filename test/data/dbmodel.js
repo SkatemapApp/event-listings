@@ -1,6 +1,7 @@
 "use strict";
 
 const skatingEvent = {
+  _id: "590e54895dd9d404004d5c3c",
   title: "Sunday Stroll: For Wander-its-worth",
   description: "This Sunday our star quaddie lead marshal Kev will be taking the Sunday Stroll on a wonderful wander down to Wandsworth. Hopefully the temperatures and join us with music, wheels and a willingness to have a good time!!",
   startAt: "2017-05-07 13:00:00 UTC",
@@ -26,8 +27,11 @@ const skatingEvent = {
   },
   url: "http://www.lfns.co.uk/for-wander-its-worth/",
   route: {
-   url: "http://www.lfns.co.uk/2017/05/07/route.xml"
-  }
+   url: "http://www.lfns.co.uk/2017/05/07/route.xml",
+   updatedAt: "2017-05-06T22:56:09.803Z",
+ },
+ updatedAt: "2017-05-06T22:56:09.803Z",
+ createdAt: "2017-05-06T22:56:09.803Z"
 }
 
 module.exports.skatingEventModel = skatingEvent;
