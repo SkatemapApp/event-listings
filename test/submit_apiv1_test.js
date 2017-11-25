@@ -3,7 +3,6 @@ var expect = require('chai').expect;
 const should = require('should');
 var assert = require('assert');
 const request = require('supertest');
-var translateToModel = require("../adapters/form_to_dbmodel").translateToModel;
 const formData = require("./data/form_submissions").sunday_stroll;
 
 describe('API', function() {
@@ -40,6 +39,26 @@ describe('API', function() {
             if (err) {
               throw err;
             }
+            const result = res.body;
+            const skatingEventId = (Object.keys(res.body)).pop();
+            const skatingEvent = result[skatingEventId];
+            expect(skatingEvent.name).to.equal(formData.name);
+            expect(skatingEvent.description).to.equal(formData.description);
+            expect(skatingEvent.start).to.equal(formData.start.substr(0, 19));
+            expect(skatingEvent.meet).to.equal(formData.meet);
+            expect(skatingEvent.meet_latlon).to.deep.equal([formData.meet_lat, formData.meet_lon]);
+            expect(skatingEvent.halftime).to.equal(formData.halftime);
+            expect(skatingEvent.halftime_latlon).to.deep.equal([formData.halftime_lat, formData.halftime_lon]);
+            expect(skatingEvent.distance).to.equal(formData.distance);
+            expect(skatingEvent.marshal).to.equal(formData.marshal);
+            expect(skatingEvent.status).to.equal(formData.status);
+            expect(skatingEvent.status_code).to.equal(formData.status_code);
+            expect(skatingEvent.url).to.equal(formData.url);
+            const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
+            expect(skatingEvent.added).to.match(dateTimeRegEx);
+            expect(skatingEvent.last_modified).to.match(dateTimeRegEx);
+            expect(skatingEvent.last_modified_route).to.match(dateTimeRegEx);
+            expect(skatingEvent.route).to.be.an('array').that.is.empty;
             done();
           });
       });

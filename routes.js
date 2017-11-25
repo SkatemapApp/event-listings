@@ -10,6 +10,7 @@ var SkatingEvent = require("./models").SkatingEvent;
 var parsePost = require("parse-post");
 var notificationRequest = require("request");
 var translateToModel = require("./adapters/form_to_dbmodel").translateToModel;
+const translateToApiV1 = require("./adapters/dbmodel_to_apiv1").translateToApiV1;
 
 router.param("id", function(req, res, next, id) {
   SkatingEvent.findById(id, function(err, doc) {
@@ -19,7 +20,7 @@ router.param("id", function(req, res, next, id) {
       err.status = 404;
       return next(err);
     }
-    req.skatingEvent = doc;
+    req.skatingEvent = translateToApiV1(doc);
     return next();
   });
 });
