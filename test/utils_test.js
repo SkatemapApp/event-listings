@@ -98,21 +98,26 @@ describe('Validate form submission', function() {
   });
 
   describe('Validate start', function() {
-    it('should check it is present', function() {
+    it('should fail if it is absent', function() {
       expect(validateFormSubmission({})).to.be.an('array').that.includes("Missing or invalid field: 'start'");
     });
 
-    it('should check it is not an empty string', function() {
+    it('should fail if it is an empty string', function() {
       expect(validateFormSubmission({start: ''})).to.be.an('array').that.includes("Missing or invalid field: 'start'");
     });
 
-    it('should check it does not exceed the maximum limit', function() {
+    it('should fail if it exceeds the maximum limit', function() {
       expect(validateFormSubmission({start: 'x'.repeat(24)})).to.be.an('array').that.includes("Missing or invalid field: 'start'");
     });
 
-    it('should check it follows the correct date format', function() {
+    it('should fail if it is not of the correct date format', function() {
       expect(validateFormSubmission({start: 'x'.repeat(23)})).to.be.an('array').that.includes("Missing or invalid field: 'start'");
     });
+
+    it('should pass if it is the correct date format', function() {
+      expect(validateFormSubmission({start: '2017-05-07 13:00:00 UTC'})).to.be.an('array').to.not.include("Missing or invalid field: 'start'");
+    });
+
   });
 
   describe('Validate meet', function() {
