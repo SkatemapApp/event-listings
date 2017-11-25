@@ -28,8 +28,8 @@ describe('API', function() {
 			});
 		});
 
-    describe('retrieving a submitted skating event via the GET request', function() {
-      it('should correctly return that skating event', function(done) {
+    describe('retrieving the skating event returned in the header of the preceeding POST request', function() {
+      it('should return the skating event created in that POST request', function(done) {
         request(createdResourceUrl)
           .get('/')
           .set('Accept', 'application/json')
