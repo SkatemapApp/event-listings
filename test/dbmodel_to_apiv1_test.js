@@ -11,7 +11,6 @@ describe('Translate DB model', function() {
 
    const result = translateToApiV1(skatingEventModel);
    const skatingEventId = (Object.keys(result)).pop();
-   console.log(result[skatingEventId]);
    const skatingEvent = result[skatingEventId];
    expect(skatingEvent.name).to.equal(skatingEventModel.title);
    expect(skatingEvent.description).to.equal(skatingEventModel.description);
