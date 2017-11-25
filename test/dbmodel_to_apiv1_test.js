@@ -5,7 +5,7 @@ const skatingEventModel = require("./data/dbmodel").skatingEventModel;
 const toUtcString = require("../utils").toUtc;
 
 describe('Translate DB model', function() {
-  const translateToApiV1 = require('../adapters/to_apiv1').translateToApiV1;
+  const translateToApiV1 = require('../adapters/dbmodel_to_apiv1').translateToApiV1;
 
   it('should correctly translate the db model to APIv1 representation', function() {
 
