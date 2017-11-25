@@ -9,6 +9,8 @@ var router = express.Router();
 var SkatingEvent = require("./models").SkatingEvent;
 var parsePost = require("parse-post");
 var notificationRequest = require("request");
+var translateToModel = require("./adapters/form_to_dbmodel").translateToModel;
+const translateToApiV1 = require("./adapters/dbmodel_to_apiv1").translateToApiV1;
 
 router.param("id", function(req, res, next, id) {
   SkatingEvent.findById(id, function(err, doc) {
@@ -18,7 +20,7 @@ router.param("id", function(req, res, next, id) {
       err.status = 404;
       return next(err);
     }
-    req.skatingEvent = doc;
+    req.skatingEvent = translateToApiV1(doc);
     return next();
   });
 });
@@ -75,7 +77,7 @@ router.delete("/skating-events/:id", function(req, res) {
 router.post('/skating-events/submit', parsePost(function(req, res, next) {
   var formData = req.body;
   // http://stackoverflow.com/a/7855281/3104465
-  var skatingEvent = translate(formData);
+  var skatingEvent = translateToModel(formData);
 
   var currentStatus;
   SkatingEvent.findOne( { 'startAt': skatingEvent.startAt },
@@ -93,11 +95,13 @@ router.post('/skating-events/submit', parsePost(function(req, res, next) {
   delete upsertData._id;
 
   var query = { 'startAt': skatingEvent.startAt };
-  SkatingEvent.findOneAndUpdate(query, upsertData, { upsert: true },
-                               function(err, skatingEvent) {
+  SkatingEvent.findOneAndUpdate(query, upsertData, { upsert: true, new: true },
+                               function(err, toto) {
                                  if (err) return next(err);
-                                 res.status(200);
-                                 res.json(skatingEvent);
+                                 res.status(201);
+                                 res.location(req.protocol + "://" +
+                                     req.headers.host + "/api/skating-events/" + toto.toObject()._id);
+                                 res.json();
                                });
 
 }));
@@ -146,42 +150,5 @@ function sendNotification(currentStatus, newStatus) {
     console.log(error);
   })
 }
-
-function translate(formData) {
-  var skatingEvent = new SkatingEvent(
-    {
-			"title": formData.name,
-			"description": formData.description,
-      "startAt": formData.start,
-      "meetingPoint": {
-        "name": formData.meet,
-        "coordinates": {
-          "latitude": formData.meet_lat,
-          "longitude": formData.meet_lon
-        }
-      },
-      "halfTime": {
-        "name": formData.halftime,
-        "coordinates": {
-          "latitude": formData.halftime_lat,
-          "longitude": formData.halftime_lon
-        }
-      },
-      "distance": formData.distance,
-      "leadMarshal": formData.marshal,
-      "status": {
-        "code": formData.status_code,
-        "text": formData.status
-      },
-      "url": formData.url,
-      "route": {
-        "url": formData.url_route
-      }
-    }
-  );
-  return skatingEvent;
-}
-
-
 
 module.exports = router;
