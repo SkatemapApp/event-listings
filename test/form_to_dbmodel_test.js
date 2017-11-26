@@ -2,13 +2,13 @@
 
 const expect = require('chai').expect;
 const formData = require("./data/form_submissions").sunday_stroll;
-const skatingEventModel = require("./data/dbmodel").skatingEventModel;
+const skatingEventModelList = require("./data/dbmodel").skatingEventModelList;
 
 describe('Translate form data', function() {
   const translateToModel = require('../adapters/form_to_dbmodel').translateToModel;
 
   it('should correctly translate the incoming form data', function() {
-
+   const skatingEventModel = skatingEventModelList[0];
    const result = translateToModel(formData);
    expect(result.title).to.equal(skatingEventModel.title);
    expect(result.description).to.equal(skatingEventModel.description);

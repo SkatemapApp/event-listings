@@ -11,6 +11,7 @@ var parsePost = require('parse-post');
 var notificationRequest = require('request');
 var translateToModel = require('./adapters/form_to_dbmodel').translateToModel;
 const translateToApiV1 = require('./adapters/dbmodel_to_apiv1').translateToApiV1;
+var translateToApiV1List = require('./adapters/dbmodel_to_apiv1').translateToApiV1List;
 
 router.param('id', function(req, res, next, id) {
     SkatingEvent.findById(id, function(err, doc) {
@@ -44,9 +45,7 @@ router.get('/skating-events', function(req, res, next) {
         .sort({createdAt: -1})
         .exec(function(err, questions) {
             if (err) return next(err);
-            var v1Obj = toApiV1(questions);
-            console.log(questions);
-            res.json(v1Obj);
+            res.json(translateToApiV1List(questions));
         });
 });
 
@@ -153,41 +152,6 @@ function sendNotification(currentStatus, newStatus) {
         console.log(response);
         console.log(body);
     });
-}
-
-function toApiV1(skatingEvents) {
-    var skates = extractSkatingEvents(skatingEvents);
-    return { version: 1,
-        retrieved: '2017-11-21 22:59:30',
-        skates
-    };
-}
-
-function extractSkatingEvents(skatingEvents) {
-    var hashTable = {};
-    for (var i = 0; i < skatingEvents.length; i++) {
-        var key = skatingEvents[i]._id;
-        hashTable[key] = ({name: skatingEvents[i].title,
-            description: skatingEvents[i].description,
-            start: skatingEvents[i].startAt,
-            meet: skatingEvents[i].meetingPoint['name'],
-            meet_latlon: [skatingEvents[i].meetingPoint['coordinates'].latitude,
-                skatingEvents[i].meetingPoint['coordinates'].longitude],
-            halftime: skatingEvents[i].halfTime['name'],
-            halftime_latlon: [skatingEvents[i].halfTime['coordinates'].latitude,
-                skatingEvents[i].halfTime['coordinates'].longitude],
-            distance: skatingEvents[i].distance,
-            marshal: skatingEvents[i].leadMarshal,
-            status: skatingEvents[i].status['text'],
-            status_code: skatingEvents[i].status['code'],
-            url: skatingEvents[i].url,
-            added: skatingEvents[i].createdAt,
-            last_modified: skatingEvents[i].updatedAt,
-            last_modified_route: skatingEvents[i].route['updatedAt'],
-            route: skatingEvents[i].route['segments']
-        });
-    }
-    return hashTable;
 }
 
 module.exports = router;

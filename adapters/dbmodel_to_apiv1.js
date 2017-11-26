@@ -27,4 +27,21 @@ function translate(skatingEvent) {
   return apiModel;
 }
 
+function translateList(skatingEventModelList) {
+    var skates = {};
+
+    for (var i = 0; i < skatingEventModelList.length; ++i) {
+        let apiModel = translate(skatingEventModelList[i]);
+        for (var key in apiModel) {
+            skates[key] = apiModel[key];
+        }
+    }
+
+    return { version: 1,
+        retrieved: new Date().toISOString().replace('T', ' ').substr(0, 19),
+        skates
+    };
+}
+
 module.exports.translateToApiV1 = translate
+module.exports.translateToApiV1List = translateList
