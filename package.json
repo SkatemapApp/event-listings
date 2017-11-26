@@ -2,7 +2,7 @@
   "name": "event-listings",
   "version": "0.0.1",
   "engines": {
-    "node": "9.2.0"
+    "node": "8.9.1"
   },
   "description": "Street Skating Event Listings",
   "main": "app.js",
