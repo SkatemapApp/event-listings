@@ -11,6 +11,7 @@ var parsePost = require('parse-post');
 var notificationRequest = require('request');
 var translateToModel = require('./adapters/form_to_dbmodel').translateToModel;
 const translateToApiV1 = require('./adapters/dbmodel_to_apiv1').translateToApiV1;
+var translateToApiV1List = require('./adapters/dbmodel_to_apiv1').translateToApiV1List;
 
 router.param('id', function(req, res, next, id) {
     SkatingEvent.findById(id, function(err, doc) {
@@ -44,7 +45,7 @@ router.get('/skating-events', function(req, res, next) {
         .sort({createdAt: -1})
         .exec(function(err, questions) {
             if (err) return next(err);
-            res.json(questions);
+            res.json(translateToApiV1List(questions));
         });
 });
 
