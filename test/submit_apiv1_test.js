@@ -14,7 +14,7 @@ describe('API', function() {
         it('should correctly create a skating event', function(done) {
 
             request(api_root_url)
-                .post('/api/skating-events/submit')
+                .post('/skating-events/submit')
                 .type('form')
                 .send(sundayStrollFormData)
                 .expect(201)
@@ -23,7 +23,7 @@ describe('API', function() {
                         throw err;
                     }
                     createdResourceUrl = res.header.location;
-                    const expectedUrlPattern = new RegExp('^' + api_root_url + '/api' + '/skating-events/'+ '[0-9a-fA-F]+$');
+                    const expectedUrlPattern = new RegExp('^' + api_root_url + '/skating-events/'+ '[0-9a-fA-F]+$');
                     expect(createdResourceUrl).to.match(expectedUrlPattern);
                     expect(res.body).to.be.empty;
                     done();
@@ -74,7 +74,7 @@ describe('API', function() {
         it('should correctly create a skating event', function(done) {
 
             request(api_root_url)
-                .post('/api/skating-events/submit')
+                .post('/skating-events/submit')
                 .type('form')
                 .send(fridayNightFormData)
                 .expect(201)
@@ -91,7 +91,7 @@ describe('API', function() {
             it('should correctly return a list of skating events', function(done) {
 
                 request(api_root_url)
-                    .get('/api/skating-events')
+                    .get('/skating-events')
                     .set('Accept', 'application/json')
                     .expect(200)
                     .end(function(err, res) {

@@ -9,7 +9,7 @@ app.use(jsonParser());
 
 require('./database');
 
-app.use('/api', routes);
+app.use('/', routes);
 
 
 app.use(function(req, res, next) {
