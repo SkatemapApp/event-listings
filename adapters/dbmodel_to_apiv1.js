@@ -2,6 +2,15 @@
 
 const toUtcString = require("../utils").toUtc;
 
+function translateCoordinates(coordinates) {
+  if (Object.keys(coordinates).length === 0
+      && coordinates.constructor === Object) {
+    return [];
+  } else {
+    return [coordinates.latitude, coordinates.longitude];
+  }
+}
+
 function translate(skatingEvent) {
   var apiModel = {};
   var key = skatingEvent._id;
@@ -9,11 +18,9 @@ function translate(skatingEvent) {
                     description: skatingEvent.description,
                     start: toUtcString(skatingEvent.startAt),
                     meet: skatingEvent.meetingPoint['name'],
-                    meet_latlon: [skatingEvent.meetingPoint['coordinates'].latitude,
-                    skatingEvent.meetingPoint['coordinates'].longitude],
+                    meet_latlon: translateCoordinates(skatingEvent.meetingPoint['coordinates']),
                     halftime: skatingEvent.halfTime['name'],
-                    halftime_latlon: [skatingEvent.halfTime['coordinates'].latitude,
-                    skatingEvent.halfTime['coordinates'].longitude],
+                    halftime_latlon: translateCoordinates(skatingEvent.halfTime['coordinates']),
                     distance: skatingEvent.distance,
                     marshal: skatingEvent.leadMarshal,
                     status: skatingEvent.status['text'],
