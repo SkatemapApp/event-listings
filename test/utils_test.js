@@ -304,10 +304,6 @@ describe('Validate form submission', function() {
     });
 
     describe('Validate halftime_lat', function() {
-        it('should fail if it is absent', function() {
-            expect(validateFormSubmission({})).to.be.an('array').that.includes('Missing or invalid field: \'halftime_lat\'');
-        });
-
         it('should fail if it is an empty string', function() {
             expect(validateFormSubmission({halftime_lat: ''})).to.be.an('array').that.includes('Missing or invalid field: \'halftime_lat\'');
         });
@@ -339,9 +335,6 @@ describe('Validate form submission', function() {
     });
 
     describe('Validate halftime_lon', function() {
-        it('should fail if it is absent', function() {
-            expect(validateFormSubmission({})).to.be.an('array').that.includes('Missing or invalid field: \'halftime_lon\'');
-        });
 
         it('should fail if it is an empty string', function() {
             expect(validateFormSubmission({halftime_lon: ''})).to.be.an('array').that.includes('Missing or invalid field: \'halftime_lon\'');
