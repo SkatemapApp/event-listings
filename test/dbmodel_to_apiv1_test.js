@@ -4,14 +4,25 @@ const expect = require('chai').expect;
 const skatingEventModelList = require('./data/dbmodel').skatingEventModelList;
 const toUtcString = require('../utils').toUtc;
 
+function verifyCoordinates(expected, actual) {
+  if (Object.keys(expected).length === 0
+      && expected.constructor === Object) {
+    expect(actual).to.be.an('array').that.is.empty;
+  } else {
+    expect(actual).to.be.an('array')
+      .that.is.to.have.lengthOf(2)
+      .to.include.deep.ordered.members([expected.latitude, expected.longitude]);
+  }
+}
+
 function verifySkatingEvent(skatingEvent, skatingEventModel) {
     expect(skatingEvent.name).to.equal(skatingEventModel.title);
     expect(skatingEvent.description).to.equal(skatingEventModel.description);
     expect(skatingEvent.start).to.equal(toUtcString(skatingEventModel.startAt));
     expect(skatingEvent.meet).to.equal(skatingEventModel.meetingPoint.name);
-    expect(skatingEvent.meet_latlon).to.deep.equal([skatingEventModel.meetingPoint.coordinates.latitude, skatingEventModel.meetingPoint.coordinates.longitude]);
+    verifyCoordinates(skatingEventModel.meetingPoint.coordinates, skatingEvent.meet_latlon);
     expect(skatingEvent.halftime).to.equal(skatingEventModel.halfTime.name);
-    expect(skatingEvent.halftime_latlon).to.deep.equal([skatingEventModel.halfTime.coordinates.latitude, skatingEventModel.halfTime.coordinates.longitude]);
+    verifyCoordinates(skatingEventModel.halfTime.coordinates, skatingEvent.halftime_latlon);
     expect(skatingEvent.distance).to.equal(skatingEventModel.distance);
     expect(skatingEvent.marshal).to.equal(skatingEventModel.leadMarshal);
     expect(skatingEvent.status).to.equal(skatingEventModel.status.text);

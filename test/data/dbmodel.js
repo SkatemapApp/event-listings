@@ -55,10 +55,7 @@ const skatingEvents = [
         },
         'halfTime':{
             'name':'Gloucester road tube',
-            'coordinates':{
-                'longitude':-0.18239825963974,
-                'latitude':51.4942003840432
-            }
+            'coordinates':{ }
         },
         'meetingPoint':{
             'name':'East end of Serpentine Road',
