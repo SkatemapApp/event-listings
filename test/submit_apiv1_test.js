@@ -6,6 +6,36 @@ const fridayNightFormData = require('./data/form_submissions').friday_night;
 
 const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
 
+function verifyCoordinates(input, output) {
+  if (input.lat === undefined || input.lon === undefined) {
+    expect(output).to.be.an('array').that.is.empty;
+  } else {
+    expect(output).to.be.an('array')
+      .that.is.to.have.lengthOf(2)
+      .to.include.deep.ordered.members([input.lat, input.lon]);
+  }
+}
+
+function verifySkatingEvent(input, output) {
+    expect(output.name).to.equal(input.name);
+    expect(output.description).to.equal(input.description);
+    expect(output.start).to.equal(input.start.substr(0, 19));
+    expect(output.meet).to.equal(input.meet);
+    verifyCoordinates({ lat: input.meet_lat, lon: input.meet_lon },
+        output.meet_latlon);
+    expect(output.halftime).to.equal(input.halftime);
+    verifyCoordinates({ lat: input.halftime_lat, lon: input.halftime_lon },
+        output.halftime_latlon);
+    expect(output.distance).to.equal(input.distance);
+    expect(output.marshal).to.equal(input.marshal);
+    expect(output.status).to.equal(input.status);
+    expect(output.status_code).to.equal(input.status_code);
+    expect(output.url).to.equal(input.url);
+    expect(output.added).to.match(dateTimeRegEx);
+    expect(output.last_modified).to.match(dateTimeRegEx);
+    expect(output.last_modified_route).to.match(dateTimeRegEx);
+    expect(output.route).to.be.an('array').that.is.empty;
+}
 
 describe('API', function() {
     var api_root_url = process.env.API_ROOT_URL || 'http://127.0.0.1:6633';
@@ -44,22 +74,7 @@ describe('API', function() {
                         const result = res.body;
                         const skatingEventId = (Object.keys(res.body)).pop();
                         const skatingEvent = result[skatingEventId];
-                        expect(skatingEvent.name).to.equal(sundayStrollFormData.name);
-                        expect(skatingEvent.description).to.equal(sundayStrollFormData.description);
-                        expect(skatingEvent.start).to.equal(sundayStrollFormData.start.substr(0, 19));
-                        expect(skatingEvent.meet).to.equal(sundayStrollFormData.meet);
-                        expect(skatingEvent.meet_latlon).to.deep.equal([sundayStrollFormData.meet_lat, sundayStrollFormData.meet_lon]);
-                        expect(skatingEvent.halftime).to.equal(sundayStrollFormData.halftime);
-                        expect(skatingEvent.halftime_latlon).to.deep.equal([sundayStrollFormData.halftime_lat, sundayStrollFormData.halftime_lon]);
-                        expect(skatingEvent.distance).to.equal(sundayStrollFormData.distance);
-                        expect(skatingEvent.marshal).to.equal(sundayStrollFormData.marshal);
-                        expect(skatingEvent.status).to.equal(sundayStrollFormData.status);
-                        expect(skatingEvent.status_code).to.equal(sundayStrollFormData.status_code);
-                        expect(skatingEvent.url).to.equal(sundayStrollFormData.url);
-                        expect(skatingEvent.added).to.match(dateTimeRegEx);
-                        expect(skatingEvent.last_modified).to.match(dateTimeRegEx);
-                        expect(skatingEvent.last_modified_route).to.match(dateTimeRegEx);
-                        expect(skatingEvent.route).to.be.an('array').that.is.empty;
+                        verifySkatingEvent(sundayStrollFormData, skatingEvent);
                         done();
                     });
             });
@@ -70,9 +85,8 @@ describe('API', function() {
 
 
     describe('submit a Friday night skate entry', function() {
-
+        var createdResourceUrl;
         it('should correctly create a skating event', function(done) {
-
             request(api_root_url)
                 .post('/skating-events')
                 .type('form')
@@ -82,9 +96,32 @@ describe('API', function() {
                     if (err) {
                         throw err;
                     }
+                    createdResourceUrl = res.header.location;
+                    const expectedUrlPattern = new RegExp('^' + api_root_url + '/skating-events/'+ '[0-9a-fA-F]+$');
+                    expect(createdResourceUrl).to.match(expectedUrlPattern);
                     expect(res.body).to.be.empty;
                     done();
                 });
+        });
+
+        describe('retrieving the skating event returned in the header of the preceeding POST request', function() {
+            it('should return the skating event created in that POST request', function(done) {
+                request(createdResourceUrl)
+                    .get('/')
+                    .set('Accept', 'application/json')
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end(function(err,res) {
+                        if (err) {
+                            throw err;
+                        }
+                        const result = res.body;
+                        const skatingEventId = (Object.keys(res.body)).pop();
+                        const skatingEvent = result[skatingEventId];
+                        verifySkatingEvent(fridayNightFormData, skatingEvent);
+                        done();
+                    });
+            });
         });
 
         describe('retrieving skating events list using the GET request', function() {
