@@ -14,7 +14,7 @@ describe('API', function() {
         it('should correctly create a skating event', function(done) {
 
             request(api_root_url)
-                .post('/skating-events/submit')
+                .post('/skating-events')
                 .type('form')
                 .send(sundayStrollFormData)
                 .expect(201)
@@ -74,7 +74,7 @@ describe('API', function() {
         it('should correctly create a skating event', function(done) {
 
             request(api_root_url)
-                .post('/skating-events/submit')
+                .post('/skating-events')
                 .type('form')
                 .send(fridayNightFormData)
                 .expect(201)
@@ -120,7 +120,7 @@ describe('API', function() {
     describe('form submission with empty fields', function() {
         it('should return an error', function(done) {
             request(api_root_url)
-                .post('/skating-events/submit')
+                .post('/skating-events')
                 .type('form')
                 .send({})
                 .expect(400)
