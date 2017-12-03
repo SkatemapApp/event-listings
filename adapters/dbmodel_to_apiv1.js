@@ -3,8 +3,8 @@
 const toUtcString = require("../utils").toUtc;
 
 function translateCoordinates(coordinates) {
-  if (Object.keys(coordinates).length === 0
-      && coordinates.constructor === Object) {
+  if (coordinates.latitude === undefined
+      || coordinates.longitude === undefined) {
     return [];
   } else {
     return [coordinates.latitude, coordinates.longitude];
