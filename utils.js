@@ -89,14 +89,14 @@ function validateFormSubmission(formData) {
     }
 
     //halftime_lat
-    if (typeof formData.halftime_lat === 'undefined'
-      || !isValidCoordinate(formData.halftime_lat)) {
+    if (typeof formData.halftime_lat !== 'undefined'
+      && !isValidCoordinate(formData.halftime_lat)) {
         messages.push('Missing or invalid field: \'halftime_lat\'');
     }
 
     //halftime_lon
-    if (typeof formData.halftime_lon === 'undefined'
-      || !isValidCoordinate(formData.halftime_lon)) {
+    if (typeof formData.halftime_lon !== 'undefined'
+      && !isValidCoordinate(formData.halftime_lon)) {
         messages.push('Missing or invalid field: \'halftime_lon\'');
     }
 
