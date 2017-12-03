@@ -115,4 +115,22 @@ describe('API', function() {
             });
         });
     });
+
+
+    describe('form submission with empty fields', function() {
+        it('should return an error', function(done) {
+            request(api_root_url)
+                .post('/skating-events/submit')
+                .type('form')
+                .send({})
+                .expect(400)
+                .end(function(err,res) {
+                    if (err) {
+                        throw err;
+                    }
+                    done();
+                });
+        });
+    });
+
 });

@@ -12,6 +12,7 @@ var notificationRequest = require('request');
 var translateToModel = require('./adapters/form_to_dbmodel').translateToModel;
 const translateToApiV1 = require('./adapters/dbmodel_to_apiv1').translateToApiV1;
 var translateToApiV1List = require('./adapters/dbmodel_to_apiv1').translateToApiV1List;
+const validateFormSubmission = require('./utils').validateFormSubmission;
 
 router.param('id', function(req, res, next, id) {
     SkatingEvent.findById(id, function(err, doc) {
@@ -49,6 +50,7 @@ router.get('/skating-events', function(req, res, next) {
         });
 });
 
+
 // GET /skating-events/id
 router.get('/skating-events/:id', function(req, res) {
     res.json(req.skatingEvent);
@@ -67,6 +69,15 @@ router.delete('/skating-events/:id', function(req, res, next) {
 // HTML form submission
 router.post('/skating-events/submit', parsePost(function(req, res, next) {
     var formData = req.body;
+
+    var errorMessages = validateFormSubmission(formData);
+    if (errorMessages.length != 0) {
+        var err = new Error();
+        err.status = 400;
+        err.message = errorMessages;
+        return next(err);
+    }
+
     // http://stackoverflow.com/a/7855281/3104465
     var skatingEvent = translateToModel(formData);
 
