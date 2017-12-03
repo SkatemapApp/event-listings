@@ -19,6 +19,7 @@ const sunday_stroll = {
     url_route: 'http://www.lfns.co.uk/2017/05/07/route.xml'
 };
 
+// halftime_lat & halftime_lon left out intentionally
 const friday_night = {
     id: '20171201',
     name: 'LFNS: Clapham Cannonball Run',
@@ -30,8 +31,6 @@ const friday_night = {
     meet_lat: 51.502533,
     meet_lon: -0.150913,
     halftime: 'Clapham Common',
-    halftime_lat: 51.46201555078928,
-    halftime_lon: -0.13767242431640625,
     marshal: 'Carl',
     status_code: 4,
     url: 'http://www.lfns.co.uk/clapham-cannonball-run-3/',
