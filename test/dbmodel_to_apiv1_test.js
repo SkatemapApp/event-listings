@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 const expect = require('chai').expect;
-const skatingEventModelList = require("./data/dbmodel").skatingEventModelList;
-const toUtcString = require("../utils").toUtc;
+const skatingEventModelList = require('./data/dbmodel').skatingEventModelList;
+const toUtcString = require('../utils').toUtc;
 
 function verifySkatingEvent(skatingEvent, skatingEventModel) {
     expect(skatingEvent.name).to.equal(skatingEventModel.title);
@@ -24,30 +24,30 @@ function verifySkatingEvent(skatingEvent, skatingEventModel) {
 }
 
 describe('Translate DB model', function() {
-  const translateToApiV1 = require('../adapters/dbmodel_to_apiv1').translateToApiV1;
-  const translateToApiV1List = require('../adapters/dbmodel_to_apiv1').translateToApiV1List;
+    const translateToApiV1 = require('../adapters/dbmodel_to_apiv1').translateToApiV1;
+    const translateToApiV1List = require('../adapters/dbmodel_to_apiv1').translateToApiV1List;
 
-  it('should correctly translate the db model to APIv1 representation', function() {
+    it('should correctly translate the db model to APIv1 representation', function() {
 
-      const skatingEventModel = skatingEventModelList[0];
-   const result = translateToApiV1(skatingEventModel);
-   const skatingEventId = (Object.keys(result)).pop();
-   const skatingEvent = result[skatingEventId];
-   verifySkatingEvent(skatingEvent, skatingEventModel);
-  });
+        const skatingEventModel = skatingEventModelList[0];
+        const result = translateToApiV1(skatingEventModel);
+        const skatingEventId = (Object.keys(result)).pop();
+        const skatingEvent = result[skatingEventId];
+        verifySkatingEvent(skatingEvent, skatingEventModel);
+    });
 
-  it('should correctly translate a list of db models to APIv1 representation', function() {
+    it('should correctly translate a list of db models to APIv1 representation', function() {
 
-      const result = translateToApiV1List(skatingEventModelList);
-      expect(result.version).to.equal(1);
-      const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
-      expect(result.retrieved).to.match(dateTimeRegEx);
-      const skates = result.skates;
-      for (var i = 0; i < skatingEventModelList.length; ++i) {
-          const skatingEventId = skatingEventModelList[i]._id;
-          const skatingEvent = skates[skatingEventId];
-          verifySkatingEvent(skatingEvent, skatingEventModelList[i]);
-      }
+        const result = translateToApiV1List(skatingEventModelList);
+        expect(result.version).to.equal(1);
+        const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
+        expect(result.retrieved).to.match(dateTimeRegEx);
+        const skates = result.skates;
+        for (var i = 0; i < skatingEventModelList.length; ++i) {
+            const skatingEventId = skatingEventModelList[i]._id;
+            const skatingEvent = skates[skatingEventId];
+            verifySkatingEvent(skatingEvent, skatingEventModelList[i]);
+        }
 
-  })
+    });
 });
