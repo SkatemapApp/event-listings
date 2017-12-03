@@ -49,16 +49,6 @@ router.get('/skating-events', function(req, res, next) {
         });
 });
 
-// POST /skating-events
-router.post('/skating-events', function(req, res, next) {
-    var skatingEvent = new SkatingEvent(req.body);
-    skatingEvent.save(function(err, skatingEvent) {
-        if (err) return next(err);
-        res.status(201);
-        res.json(skatingEvent);
-    });
-});
-
 // GET /skating-events/id
 router.get('/skating-events/:id', function(req, res) {
     res.json(req.skatingEvent);
