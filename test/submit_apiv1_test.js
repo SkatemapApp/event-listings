@@ -7,13 +7,13 @@ const fridayNightFormData = require('./data/form_submissions').friday_night;
 const dateTimeRegEx = new RegExp('^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$');
 
 function verifyCoordinates(input, output) {
-  if (input.lat === undefined || input.lon === undefined) {
-    expect(output).to.be.an('array').that.is.empty;
-  } else {
-    expect(output).to.be.an('array')
-      .that.is.to.have.lengthOf(2)
-      .to.include.deep.ordered.members([input.lat, input.lon]);
-  }
+    if (input.lat === undefined || input.lon === undefined) {
+        expect(output).to.be.an('array').that.is.empty;
+    } else {
+        expect(output).to.be.an('array')
+            .that.is.to.have.lengthOf(2)
+            .to.include.deep.ordered.members([input.lat, input.lon]);
+    }
 }
 
 function verifySkatingEvent(input, output) {

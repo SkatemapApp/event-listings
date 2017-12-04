@@ -5,14 +5,14 @@ const skatingEventModelList = require('./data/dbmodel').skatingEventModelList;
 const toUtcString = require('../utils').toUtc;
 
 function verifyCoordinates(expected, actual) {
-  if (Object.keys(expected).length === 0
+    if (Object.keys(expected).length === 0
       && expected.constructor === Object) {
-    expect(actual).to.be.an('array').that.is.empty;
-  } else {
-    expect(actual).to.be.an('array')
-      .that.is.to.have.lengthOf(2)
-      .to.include.deep.ordered.members([expected.latitude, expected.longitude]);
-  }
+        expect(actual).to.be.an('array').that.is.empty;
+    } else {
+        expect(actual).to.be.an('array')
+            .that.is.to.have.lengthOf(2)
+            .to.include.deep.ordered.members([expected.latitude, expected.longitude]);
+    }
 }
 
 function verifySkatingEvent(skatingEvent, skatingEventModel) {
